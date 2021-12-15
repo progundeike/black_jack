@@ -2,7 +2,6 @@
 
 namespace black_jack\Test;
 
-use black_jack\Participant;
 use black_jack\DrawCard;
 use black_jack\Card;
 use PHPUnit\Framework\TestCase;

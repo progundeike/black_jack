@@ -27,6 +27,10 @@ class Card
         'K' => 10,
     ];
 
+    public const HARD_HAND = 1;
+    public const SOFT_HAND = 11;
+    public const Black_JACK = 21;
+
     /** @var array<int, array<string, string>> $deckCards */
     public array $deckCards;
 
@@ -52,15 +56,25 @@ class Card
     /** @param array<int,array<string,string>> $cards
     *  @return int $sumScore
     */
-    public function getScore(array $cards): int
+    public function getSoftHandScore(array $cards): int
     {
         $sumScore = 0;
         foreach ($cards as $card) {
             $score = self::CARDS_SCORE[$card['number']];
             $sumScore += $score;
         }
-        if ($this->existA($cards) && ($sumScore <= 10)) {
-            $sumScore += 10;
+        if ($this->existA($cards) && ($sumScore <= 11)) {
+            $sumScore += (self::SOFT_HAND - self::HARD_HAND);
+        }
+        return $sumScore;
+    }
+
+    public function getHardHandScore(array $cards): int
+    {
+        $sumScore = 0;
+        foreach ($cards as $card) {
+            $score = self::CARDS_SCORE[$card['number']];
+            $sumScore += $score;
         }
         return $sumScore;
     }

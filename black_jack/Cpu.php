@@ -7,7 +7,7 @@ require_once(__DIR__ . '/Player.php');
 
 class Cpu implements Participant
 {
-    private const ADDITIONAL_CARD_CHOICE = 15;
+    private const STAND_SCORE = 15;
     private string $name;
     public function __construct(public DrawCard $drawCard, public Card $card, string $name)
     {
@@ -16,7 +16,7 @@ class Cpu implements Participant
 
     public function tern(): void
     {
-        $playerScore = $this->card->getScore($this->card->hands[$this->name]);
+        $playerScore = $this->card->getSoftHandScore($this->card->hands[$this->name]);
         echo $this->name . 'の現在の得点は' . $playerScore . 'です。' . PHP_EOL;
         if ($playerScore < 21) {
             if ($this->hitOrStay($playerScore)) {
@@ -32,7 +32,7 @@ class Cpu implements Participant
 
     public function hitOrStay(int $playerScore): bool
     {
-        if ($playerScore < self::ADDITIONAL_CARD_CHOICE) {
+        if ($playerScore < self::STAND_SCORE) {
             $choice = true;
         } else {
             $choice = false;

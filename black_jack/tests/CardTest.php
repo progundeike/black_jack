@@ -9,7 +9,7 @@ require_once(__DIR__ . '/../Card.php');
 
 class CardTest extends TestCase
 {
-    public function testGetScore(): void
+    public function testGetSoftHandScore(): void
     {
         $card = new Card();
         $this->assertSame(52, count($card->deckCards));
@@ -18,20 +18,20 @@ class CardTest extends TestCase
             ['suit' => 'SPADE', 'number' => 'J'],
             ['suit' => 'HEART', 'number' => 'A'],
         ];
-        $this->assertSame(11, $card->getScore($sampleCards));
+        $this->assertSame(21, $card->getSoftHandScore($sampleCards));
 
         $sampleCards = [
             ['suit' => 'DIAMOND', 'number' => 'K'],
             ['suit' => 'CLUB', 'number' => '6'],
         ];
-        $this->assertSame(16, $card->getScore($sampleCards));
+        $this->assertSame(16, $card->getSoftHandScore($sampleCards));
 
         $sampleCards = [
             ['suit' => 'DIAMOND', 'number' => 'K'],
             ['suit' => 'CLUB', 'number' => '6'],
             ['suit' => 'HEART', 'number' => 'A'],
         ];
-        $this->assertSame(17, $card->getScore($sampleCards));
+        $this->assertSame(17, $card->getSoftHandScore($sampleCards));
 
         $sampleCards = [
             ['suit' => 'DIAMOND', 'number' => 'K'],
@@ -39,7 +39,7 @@ class CardTest extends TestCase
             ['suit' => 'HEART', 'number' => 'A'],
             ['suit' => 'SPADE', 'number' => 'A'],
         ];
-        $this->assertSame(18, $card->getScore($sampleCards));
+        $this->assertSame(18, $card->getSoftHandScore($sampleCards));
 
         $sampleCards = [
             ['suit' => 'DIAMOND', 'number' => 'A'],
@@ -47,6 +47,6 @@ class CardTest extends TestCase
             ['suit' => 'HEART', 'number' => 'A'],
             ['suit' => 'SPADE', 'number' => 'A'],
         ];
-        $this->assertSame(14, $card->getScore($sampleCards));
+        $this->assertSame(14, $card->getSoftHandScore($sampleCards));
     }
 }

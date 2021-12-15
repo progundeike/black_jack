@@ -15,7 +15,6 @@ class BlackJack
     public Card $card;
     public DrawCard $drawCard;
     public Rule $rule;
-    public const BLACK_JACK = 21;
     public function __construct()
     {
         $this->card = new Card();
@@ -44,7 +43,7 @@ class BlackJack
         $winnerList = $this->getWinner($participantScore);
         $this->declareWinner($winnerList);
 
-        echo 'ブラックジャックを終了します。' . PHP_EOL;
+        echo PHP_EOL . 'ブラックジャックを終了します。' . PHP_EOL;
     }
 
     /** @return array<object> */
@@ -73,10 +72,10 @@ class BlackJack
         $difScoreArray = [];
         $bustList = [];
         foreach ($participantScore as $name => $score) {
-            if ($score > 21) {
+            if ($score > Card::Black_JACK) {
                 $bustList[$name] = 'bust';
             } else {
-                $difScoreArray[$name] = self::BLACK_JACK - $score;
+                $difScoreArray[$name] = Card::Black_JACK - $score;
             }
         }
         asort($difScoreArray, SORT_NUMERIC);
@@ -100,26 +99,22 @@ class BlackJack
             Card::SUIT[$cards[1]['suit']] . 'の' . $cards[1]['number'] .
             'です。' . PHP_EOL;
         }
-        echo 'ディーラーの引いたカードは' . Card::SUIT[$dealersHand[0]['suit']] . 'の' . $dealersHand[0]['number'] . 'です。' . PHP_EOL;
-        echo 'ディーラーの引いた2枚目のカードはわかりません。' . PHP_EOL;
+        echo 'ディーラーの引いたカードは' . Card::SUIT[$dealersHand[0]['suit']] . 'の' . $dealersHand[0]['number'] . 'です。' . PHP_EOL
+        . 'ディーラーの引いた2枚目のカードはわかりません。' . PHP_EOL;
     }
 
     /** @param array<string> $winnerList */
     public function declareWinner(array $winnerList): void
     {
-        if ($winnerList == 'draw') {
-            echo '引き分けです';
+        if ($winnerList === ['draw']) {
+            echo '引き分けです。';
+        } elseif (count($winnerList) == 1) {
+            echo $winnerList[0] . 'の勝ちです!';
+        } elseif (count($winnerList) == 2) {
+            echo $winnerList[0] . 'と' . $winnerList[1] . 'の勝ちです!';
+        } elseif (count($winnerList) == 3) {
+            echo $winnerList[0] . 'と' . $winnerList[1] . $winnerList[2] . 'の勝ちです!';
         }
-        if (count($winnerList) >= 1) {
-            echo $winnerList[0];
-        }
-        if (count($winnerList) >= 2) {
-            echo 'と' . $winnerList[1];
-        }
-        if (count($winnerList) >= 3) {
-            echo 'と' . $winnerList[2];
-        }
-        echo 'の勝ちです!' . PHP_EOL;
     }
 
     /**
@@ -130,7 +125,7 @@ class BlackJack
     {
         $participantScore = [];
         foreach ($hands as $name => $hand) {
-            $score = $this->card->getScore($hand);
+            $score = $this->card->getSoftHandScore($hand);
             $participantScore[$name] = $score;
         }
         return $participantScore;

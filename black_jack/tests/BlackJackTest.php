@@ -46,4 +46,12 @@ class BlackJackTest extends TestCase
         ];
         $this->assertSame([Participant::PLAYER], $blackJack->getWinner($participantScore));
     }
+
+    public function testDeclareWinner()
+    {
+        $blackJack = new BlackJack();
+        $winnerList = ['draw'];
+        $this->expectOutputString('引き分けです');
+        $blackJack->declareWinner($winnerList);
+    }
 }
